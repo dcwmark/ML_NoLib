@@ -1,0 +1,5 @@
+.DS_Store
+
+/data/
+/common/js_objects/
+/node/node_modules/
