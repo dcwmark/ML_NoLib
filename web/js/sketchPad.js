@@ -78,7 +78,7 @@ class SketchPad {
     };
 
     /**
-     * UNDO button events
+     * [UNDO] button events
      */
     this.undoBtn.onclick = () => {
       this.paths.pop();
