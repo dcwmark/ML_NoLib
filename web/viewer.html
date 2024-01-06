@@ -49,19 +49,25 @@
         axesLabels: featureNames,
         styles: utils.styles,
         transparency: 0.7,
-        icon: 'text',
+        icon: 'image',
       };
+      /**
+       * This takes what are in
+       *   utils.styles<.objects> .color and .text
+       *   and combine them into images of
+       *   "coloured text, whict are images".
+       */
+      graphics.generateImages(utils.styles);
 
       const chart = new Chart(
         chartContainer,
         samples,
         options,
-        // handleClick,
+        handleClick,
       );
     </script>
 
     <script>
-      // graphics.generateImages(utils.styles);
 
       // const classify = (point) => {
       //   const samplePoints = samples.map(s => s.point);
