@@ -41,8 +41,7 @@ button:disabled:hover {
   width: 100%;
 }
 .rowLabel {
-  flex: 1 1 0;
-  width: 15%;
+  flex: 2 1 0;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

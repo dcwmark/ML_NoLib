@@ -3,8 +3,8 @@
 const fs = require('fs');
 const { createCanvas } = require('canvas');
 
-const draw = require('../common/draw.js');
 const constants = require('../common/constants.js');
+const draw = require('../common/draw.js');
 const utils = require('../common/utils.js');
 
 const canvas = createCanvas(400, 400);
@@ -92,5 +92,5 @@ fs.writeFileSync(
  */
 fs.writeFileSync(
   constants.SAMPLES_JS,
-    `const samples=${JSON.stringify(samples)};`
+  `const samples=${JSON.stringify(samples)};`
 );
