@@ -21,7 +21,11 @@ class SketchPad {
     this.ctx = this.canvas.getContext('2d');
 
     // this.onUpdate = onUpdate;
-    this.reset();
+    // this.reset();
+
+    this.paths = [];
+    this.isDrawing = false;
+    this.#redraw();
 
     this.#addEventListeners();
   }
@@ -52,11 +56,10 @@ class SketchPad {
         this.#redraw();
       }
     };
-
     /**
      * If the mouseup is triggered outside the canvas,
-     * this.canvas.mouseup would not be caught, hence,
-     * document.mouseup; instead.
+     *   this.canvas.mouseup would not be caught, hence,
+     *   document.mouseup; instead.
      */
     document.onmouseup = () => {
       this.isDrawing = false;
@@ -78,7 +81,7 @@ class SketchPad {
     };
 
     /**
-     * [UNDO] button events
+     * UNDO button events
      */
     this.undoBtn.onclick = () => {
       this.paths.pop();
@@ -118,14 +121,10 @@ class SketchPad {
     );
     draw.paths(this.ctx, this.paths);
 
-    this.undoBtn.disabled =
-      /**
-       * disable the [UNDO] button if there is not drawing;
-       * if <paths> is empty: there is no drawing, nothing to undo. 
-       */
-      this.paths.length > 0 ? false : true;
+    this.undoBtn.disabled = this.paths.length > 0 ? false : true;
 
-    this.triggerUpdate();
+    // this.triggerUpdate();
+    // this.onUpdate(this.paths);
   };
 
   triggerUpdate = () => {

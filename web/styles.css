@@ -30,9 +30,9 @@ button:disabled:hover {
   transform: translate(-50%, -50%);
   text-align: center;
 }
-#sketchPadContainer {
+/* #sketchPadContainer {
   visibility: hidden;
-}
+} */
 .row {
   display: flex;
   align-items: center;
