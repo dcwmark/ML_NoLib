@@ -21,11 +21,11 @@ class SketchPad {
     this.ctx = this.canvas.getContext('2d');
 
     // this.onUpdate = onUpdate;
-    // this.reset();
+    this.reset();
 
-    this.paths = [];
-    this.isDrawing = false;
-    this.#redraw();
+    // this.paths = [];
+    // this.isDrawing = false;
+    // this.#redraw();
 
     this.#addEventListeners();
   }
