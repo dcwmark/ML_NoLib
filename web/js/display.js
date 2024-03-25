@@ -17,6 +17,11 @@ const createRow = (container, studentName, samples) => {
 
     const sampleContainer = document.createElement('div');
     sampleContainer.id = `sample_${id}`;
+    // The <code>handleClick</code> scrolls the selection
+    // to the center of scree.  But this behavious is not
+    // desired for when clicking of the chart.
+    // Therefore, set the second parameter of
+    // <code>handleClick</code> would bypass this behaviour.
     sampleContainer.onclick =
       () => handleClick(sample, false);
     sampleContainer.classList.add('sampleContainer');
@@ -50,6 +55,8 @@ const handleClick = (sample, doScroll = true) => {
   const el = document.getElementById(
     `sample_${sample.id}`
   );
+  // When am <code>EMPHASIZE</code>d element is selected
+  // again, deEMPHASIZE it.
   if (el.classList.contains(EMPHASIZE)) {
     el.classList.remove(EMPHASIZE);
     chart.selectSample(null);

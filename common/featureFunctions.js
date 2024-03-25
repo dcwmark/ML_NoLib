@@ -1,5 +1,17 @@
 // common/featureFunctions.js
 
+const featureFunctions = {};
+
+featureFunctions.getPathCount = (paths) => {
+  return paths.length;
+};
+
+featureFunctions.getPointCount = (paths) => {
+  const points = paths.flat();
+  return points.length;
+};
+
+/*
 const featureFunctions = {
 
   getPathCount: (paths) => paths.length,
@@ -31,13 +43,12 @@ const featureFunctions = {
   }, {
     name: 'Point Count', function: featureFunctions.getPointCount,
   }];
- */
+ *
 featureFunctions.inUse = [{
   name: 'Width', function: featureFunctions.getWidth,
 }, {
   name: 'Height', function: featureFunctions.getHeight,
 }];
-
+*/
 if (typeof module !== 'undefined')
   module.exports = featureFunctions;
-

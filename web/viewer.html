@@ -26,17 +26,16 @@
     <script src="../common/featureFunctions.js"></script>
     <script src="../common/utils.js"></script>
 
-    <script src="js/display.js"></script>
-    <script src="js/sketchPad.js"></script>
+    <script src="./js/display.js"></script>
+    <script src="./js/sketchPad.js"></script>
 
-    <script src="chart/graphics.js"></script>
-    <script src="chart/math.js"></script>
-    <script src="chart/chart.js"></script>
+    <script src="./chart/chart.js"></script>
+    <script src="./chart/graphics.js"></script>
+    <script src="./chart/math.js"></script>
 
     <script>
       const { samples, featureNames } = features;
       const groups = utils.groupBy(samples, 'student_id');
-      console.log(groups);
       
       for (let student_id in groups) {
         const samples = groups[student_id];
@@ -49,7 +48,7 @@
         axesLabels: featureNames,
         styles: utils.styles,
         transparency: 0.7,
-        icon: 'image',
+        icon: 'text',
       };
       graphics.generateImages(utils.styles);
 
@@ -71,23 +70,27 @@
         /**
          * Replacing this with featureFunctions.inUse[]:
          *    Chain of resposibility ???
-         * =============================================
+         * ============================================= */
             const point = [
               featureFunctions.getPathCount(paths),
               featureFunctions.getPointCount(paths)
             ];
-        */
-        const functions = featureFunctions.inUse.map(f => f.function);
-        const point = functions.map(f => f(paths));
-        utils.normalizePoints([point], minMax);
-        const { label, nearestSample } = classify(point);
-        predictedLabelContainer.innerHTML =
-          `Is it a ${label}?`;
-        chart.showDynamicPoint(point, label, nearestSample);
+            chart.showDynamicPoint(point); 
+        /* */
+        // const functions = featureFunctions.inUse.map(f => f.function);
+        // const point = functions.map(f => f(paths));
+        // utils.normalizePoints([point], minMax);
+        // const { label, nearestSample } = classify(point);
+        // predictedLabelContainer.innerHTML =
+        //   `Is it a ${label}?`;
+        // chart.showDynamicPoint(point, label, nearestSample);
       };
 
       const sketchPad =
         new SketchPad(inputContainer, onDrawingUpdate);
+      // This css style is to overlay the rest of the page
+      // other than the sketchPad to a transparent dark
+      // gray shade.
       sketchPad.canvas.style.cssText += `
         outline: 100000px solid rgba(0, 0, 0, 0.7);
       `;
