@@ -35,30 +35,37 @@ for (const sample of samples) {
   ];
 }
 
-const minMax = utils.normalizePoints(
-  samples.map(s => s.point)
-);
+// const minMax = utils.normalizePoints(
+//   samples.map(s => s.point)
+// );
 
 /**
- * const featureNames = ['Path Counts', 'Point Count'];
+ * const featureNames = ['Path Count', 'Point Count'];
  * 
  * With featureFunction.inUse[], replace each seperate calls
  * to mapping each of the name ref and repeat calling each,
  */
-const featureNames = ['Path Counts', 'Point Count'];
+const featureNames = ['Path Count', 'Point Count'];
 // const featureNames = featureFunctions.inUse.map(f => f.name);
 
+// fs.writeFileSync(
+//   constants.FEATURES,
+//   JSON.stringify({ 
+//     featureNames,
+//     samples: samples.map( (s) => {
+//       return {
+//         point: s.point,
+//         label: s.label,
+//       };
+//     }),
+//   }),
+// );
 fs.writeFileSync(
   constants.FEATURES,
   JSON.stringify({ 
     featureNames,
-    samples: samples.map( (s) => {
-      return {
-        point: s.point,
-        label: s.label,
-      };
-    }),
-  }),
+    samples,
+  })
 );
 
 /** 
@@ -78,10 +85,10 @@ fs.writeFileSync(
   `const features=${ JSON.stringify({ featureNames, samples }) };`,
 );
 
-fs.writeFileSync(
-  constants.MIN_MAX_JS,
-  `const minMax=${ JSON.stringify({ minMax }) };`,
-);
+// fs.writeFileSync(
+//   constants.MIN_MAX_JS,
+//   `const minMax=${ JSON.stringify({ minMax }) };`,
+// );
 
 console.log(`Done!`);
 
