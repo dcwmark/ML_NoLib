@@ -47,14 +47,20 @@ const deEmphasizeAll = () =>
   [...document.querySelectorAll(`.${ EMPHASIZE }`)].
     forEach((e) => e.classList.remove(EMPHASIZE));
 
+// 1. When an item is clicked on the grid or the chart ...
 const handleClick = (sample, doScroll = true) => {
+  // <code>sample</code> can be null if click was
+  // done on empty space of the chart (not on an item).
   if (sample == null) {
     deEmphasizeAll();
     return;
   }
+
+  // 2. Grab the item ...
   const el = document.getElementById(
     `sample_${sample.id}`
   );
+
   // When am <code>EMPHASIZE</code>d element is selected
   // again, deEMPHASIZE it.
   if (el.classList.contains(EMPHASIZE)) {
@@ -62,14 +68,21 @@ const handleClick = (sample, doScroll = true) => {
     chart.selectSample(null);
     return;
   }
+
   deEmphasizeAll();
+
+  // 3. Add the "emphasize" class ...
   el.classList.add(EMPHASIZE);
+
+  // 4. Scrool the item to view
   if (doScroll) {
     el.scrollIntoView({
       behavior: 'auto',
       block: 'center',
     });
   }
+
+  // 5. Reflect the selected item in the chart.
   chart.selectSample(sample);
 }
 

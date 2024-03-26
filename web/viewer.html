@@ -48,7 +48,7 @@
         axesLabels: featureNames,
         styles: utils.styles,
         transparency: 0.7,
-        icon: 'text',
+        icon: 'image',
       };
       graphics.generateImages(utils.styles);
 
@@ -61,8 +61,8 @@
 
       const classify = (point) => {
         const samplePoints = samples.map(s => s.point);
-        const indices = utils.getNearest(point, samplePoints);
-        const nearestSample = samples[indices];
+        const index = utils.getNearest(point, samplePoints);
+        const nearestSample = samples[index];
         return { label: nearestSample.label, nearestSample };
       };
 
@@ -70,24 +70,32 @@
         /**
          * Replacing this with featureFunctions.inUse[]:
          *    Chain of resposibility ???
-         * ============================================= */
-            const point = [
-              featureFunctions.getPathCount(paths),
-              featureFunctions.getPointCount(paths)
-            ];
-            chart.showDynamicPoint(point); 
-        /* */
-        // const functions = featureFunctions.inUse.map(f => f.function);
-        // const point = functions.map(f => f(paths));
+         * =============================================
+           const point = [
+             featureFunctions.getPathCount(paths),
+             featureFunctions.getPointCount(paths)
+           ];
+         * =============================================
+         * With featureFunction.inUse[], replace each seperate calls
+         * to mapping each of the function call and repeatedly calling each.
+         * (See feature_extractor.js of similar set up).
+         */
+        const functions = featureFunctions.inUse.map(f => f.function);
+        const point = functions.map(f => f(paths));
+
+        /**
+         * Try classifying the point drawn based on the neibours.
+         */
         // utils.normalizePoints([point], minMax);
-        // const { label, nearestSample } = classify(point);
-        // predictedLabelContainer.innerHTML =
-        //   `Is it a ${label}?`;
-        // chart.showDynamicPoint(point, label, nearestSample);
+        const { label, nearestSample } = classify(point);
+        predictedLabelContainer.innerHTML =
+          `Is it a ${label}?`;
+        chart.showDynamicPoint(point, label, nearestSample);
       };
 
       const sketchPad =
         new SketchPad(inputContainer, onDrawingUpdate);
+
       // This css style is to overlay the rest of the page
       // other than the sketchPad to a transparent dark
       // gray shade.

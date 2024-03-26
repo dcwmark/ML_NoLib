@@ -19,25 +19,22 @@ for (const sample of samples) {
     )
   );
   /**
+   * ============================================================
    * sample.point = [
    *   featureFunctions.getPathCount(paths),
    *   featureFunctions.getPointCount(paths)
    * ];
-   * 
+   * ============================================================
    * With featureFunction.inUse[], replace each seperate calls
-   * to mapping each of the function call and repeat calling each,
+   * to mapping each of the function call and repeatedly calling each.
    */
-  // const functions = featureFunctions.inUse.map(f => f.function);
-  // sample.point = functions.map(f => f(paths));
-  sample.point = [
-    featureFunctions.getPathCount(paths),
-    featureFunctions.getPointCount(paths)
-  ];
+  const functions = featureFunctions.inUse.map(f => f.function);
+  sample.point = functions.map(f => f(paths));
 }
 
-// const minMax = utils.normalizePoints(
-//   samples.map(s => s.point)
-// );
+const minMax = utils.normalizePoints(
+  samples.map(s => s.point)
+);
 
 /**
  * const featureNames = ['Path Count', 'Point Count'];
@@ -45,27 +42,19 @@ for (const sample of samples) {
  * With featureFunction.inUse[], replace each seperate calls
  * to mapping each of the name ref and repeat calling each,
  */
-const featureNames = ['Path Count', 'Point Count'];
-// const featureNames = featureFunctions.inUse.map(f => f.name);
+const featureNames = featureFunctions.inUse.map(f => f.name);
 
-// fs.writeFileSync(
-//   constants.FEATURES,
-//   JSON.stringify({ 
-//     featureNames,
-//     samples: samples.map( (s) => {
-//       return {
-//         point: s.point,
-//         label: s.label,
-//       };
-//     }),
-//   }),
-// );
 fs.writeFileSync(
   constants.FEATURES,
   JSON.stringify({ 
     featureNames,
-    samples,
-  })
+    samples: samples.map( (s) => {
+      return {
+        point: s.point,
+        label: s.label,
+      };
+    }),
+  }),
 );
 
 /** 
@@ -82,7 +71,9 @@ fs.writeFileSync(
  */
 fs.writeFileSync(
   constants.FEATURES_JS,
-  `const features=${ JSON.stringify({ featureNames, samples }) };`,
+  `const features=${
+    JSON.stringify({ featureNames, samples })
+  };`,
 );
 
 // fs.writeFileSync(

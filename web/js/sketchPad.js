@@ -124,7 +124,6 @@ class SketchPad {
     this.undoBtn.disabled = this.paths.length > 0 ? false : true;
 
     this.triggerUpdate();
-    // this.onUpdate(this.paths);
   };
 
   triggerUpdate = () => {
