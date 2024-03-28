@@ -44,6 +44,24 @@ const minMax = utils.normalizePoints(
  */
 const featureNames = featureFunctions.inUse.map(f => f.name);
 
+console.log(`Generating Splits ...`);
+
+const trainingAmount = samples.length * 0.5;
+
+const partition = (baseArray, isTrue) => {
+  return baseArray.reduce(([part1, part2], elem) => {
+    return isTrue(elem)
+    ? [[...part1, [elem]], [...part2]] 
+    : [[...part1], [...part2, [elem]]];
+  }, [[], []]);
+};
+const [partition1, partition2] = partition(
+  samples,
+  (e) => e.id <= trainingAmount,
+);
+const training = partition1.flat(Infinity);
+const testing = partition2.flat(Infinity);
+
 fs.writeFileSync(
   constants.FEATURES,
   JSON.stringify({ 
@@ -73,6 +91,44 @@ fs.writeFileSync(
   constants.FEATURES_JS,
   `const features=${
     JSON.stringify({ featureNames, samples })
+  };`,
+);
+
+fs.writeFileSync(
+  constants.TRAINING,
+  JSON.stringify({ 
+    featureNames,
+    samples: training.map( (s) => {
+      return {
+        point: s.point,
+        label: s.label,
+      };
+    }),
+  }),
+);
+fs.writeFileSync(
+  constants.TRAINING_JS,
+  `const training=${
+    JSON.stringify({ featureNames, samples: training })
+  };`,
+);
+
+fs.writeFileSync(
+  constants.TESTING,
+  JSON.stringify({ 
+    featureNames,
+    samples: testing.map( (s) => {
+      return {
+        point: s.point,
+        label: s.label,
+      };
+    }),
+  }),
+);
+fs.writeFileSync(
+  constants.TESTING_JS,
+  `const testing=${
+    JSON.stringify({ featureNames, samples: testing })
   };`,
 );
 
