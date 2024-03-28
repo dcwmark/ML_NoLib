@@ -76,10 +76,10 @@ fs.writeFileSync(
   };`,
 );
 
-// fs.writeFileSync(
-//   constants.MIN_MAX_JS,
-//   `const minMax=${ JSON.stringify({ minMax }) };`,
-// );
+fs.writeFileSync(
+  constants.MIN_MAX_JS,
+  `const minMax=${ JSON.stringify(minMax) };`,
+);
 
 console.log(`Done!`);
 

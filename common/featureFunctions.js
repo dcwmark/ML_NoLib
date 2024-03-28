@@ -26,17 +26,16 @@ const featureFunctions = {
 /**
  * Chain of responsibility ???
  * =========================== */
-  featureFunctions.inUse = [{
-    name: 'Path Count', function: featureFunctions.getPathCount,
-  }, {
-    name: 'Point Count', function: featureFunctions.getPointCount,
-  }];
-/*
+// featureFunctions.inUse = [{
+//   name: 'Path Count', function: featureFunctions.getPathCount,
+// }, {
+//   name: 'Point Count', function: featureFunctions.getPointCount,
+// }];
 featureFunctions.inUse = [{
   name: 'Width', function: featureFunctions.getWidth,
 }, {
   name: 'Height', function: featureFunctions.getHeight,
 }];
-*/
+
 if (typeof module !== 'undefined')
   module.exports = featureFunctions;

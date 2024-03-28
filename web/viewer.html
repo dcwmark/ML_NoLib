@@ -83,10 +83,11 @@
         const functions = featureFunctions.inUse.map(f => f.function);
         const point = functions.map(f => f(paths));
 
+        utils.normalizePoints([point], minMax);
+
         /**
          * Try classifying the point drawn based on the neibours.
          */
-        // utils.normalizePoints([point], minMax);
         const { label, nearestSample } = classify(point);
         predictedLabelContainer.innerHTML =
           `Is it a ${label}?`;
