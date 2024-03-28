@@ -10,7 +10,7 @@ console.log(`Extracting Features ...`);
 
 const samples = JSON.parse(
     fs.readFileSync(constants.SAMPLES)
-).filter(s => s.id != 3107);
+);
 
 for (const sample of samples) {
   const paths = JSON.parse(
