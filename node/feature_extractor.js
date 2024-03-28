@@ -32,10 +32,6 @@ for (const sample of samples) {
   sample.point = functions.map(f => f(paths));
 }
 
-const minMax = utils.normalizePoints(
-  samples.map(s => s.point)
-);
-
 /**
  * const featureNames = ['Path Count', 'Point Count'];
  * 
@@ -48,19 +44,28 @@ console.log(`Generating Splits ...`);
 
 const trainingAmount = samples.length * 0.5;
 
-const partition = (baseArray, isTrue) => {
-  return baseArray.reduce(([part1, part2], elem) => {
-    return isTrue(elem)
-    ? [[...part1, [elem]], [...part2]] 
-    : [[...part1], [...part2, [elem]]];
-  }, [[], []]);
-};
 const [partition1, partition2] = partition(
   samples,
   (e) => e.id <= trainingAmount,
 );
 const training = partition1.flat(Infinity);
 const testing = partition2.flat(Infinity);
+
+const minMax = utils.normalizePoints(
+  /**
+   * Before it was normalized for all samples.
+   * After splitting the samples into:
+   * training and testing, the normalization
+   * should only be done for trainingSamples.
+   *
+   * =========================================
+    samples.map(s => s.point)
+   */
+  training.map(s => s.point)
+);
+utils.normalizePoints(
+  testing.map(s => s.point), minMax
+);
 
 fs.writeFileSync(
   constants.FEATURES,

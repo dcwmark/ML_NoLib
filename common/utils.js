@@ -16,6 +16,7 @@ utils.styles = {
   pencil: { color: 'magenta', text: '✏️', },
   clock: { color: 'lightgray', text: '🕒', },
 };
+utils.styles['?'] = { color: 'red', text: '❓'};
 
 utils.formatPercent = (n) => `${ (n * 100).toFixed(2) }%`;
 
@@ -28,6 +29,14 @@ utils.printProgress = (count, max) => {
   process.stdout.write(
     `${count} / ${max} (${percent})`
   )
+};
+
+utils.partition = (baseArray, isTrue) => {
+  return baseArray.reduce(([part1, part2], elem) => {
+    return isTrue(elem)
+    ? [[...part1, [elem]], [...part2]] 
+    : [[...part1], [...part2, [elem]]];
+  }, [[], []]);
 };
 
 utils.groupBy = (objArraay, key) => {
