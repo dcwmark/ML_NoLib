@@ -47,20 +47,51 @@ utils.distance = (p1,p2) => {
   );
 };
 
-utils.getNearest = (loc, points) => {
-  let minDist = Number.MAX_SAFE_INTEGER;
-  let nearestIndex = 0;
+/**
+ * 
+ * @param {*} loc 
+ * @param {*} points 
+ * @param {*} k defaults to 1 (neighbour) as
+ *                K nearest neighours classification
+ *                is used. 
+ * @returns 
+ */
+utils.getNearest = (loc, points, k = 1) => {
+  /**
+   * This simple nearest neighbour method is remove
+   * in favour of the K Nearest Neighbours method.
+   * ==============================================
+    let minDist = Number.MAX_SAFE_INTEGER;
+    let nearestIndex = 0;
 
-  for(let i=0; i<points.length; i++) {
-    const point = points[i];
-    const d = utils.distance(loc, point);
+    for(let i=0; i<points.length; i++) {
+      const point = points[i];
+      const d = utils.distance(loc, point);
 
-    if(d < minDist){
-      minDist = d;
-      nearestIndex = i;
+      if(d < minDist){
+        minDist = d;
+        nearestIndex = i;
+      }
     }
-  }
-  return nearestIndex;
+    return nearestIndex;
+  */
+  const obj = points.map((val, ind) => {
+    return { ind, val }
+  });
+  const sorted = obj.sort((a, b) => {
+    // returns
+    //   the distance between a given loc(ation)
+    //     and the value of a
+    //       minus (-)
+    //   the distance between a given loc(ation)
+    //     and the value of b;
+    //   and the sorting will give the nearer distances first.
+    return utils.distance(loc, a.val)
+         - utils.distance(loc, b.val);
+  });
+  const indices = sorted.map((obj) => obj.ind);
+  // returning the first K
+  return indices.slice(0, k);
 };
 
 utils.invLerp = (a, b, v) => {
