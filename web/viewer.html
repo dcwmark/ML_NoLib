@@ -28,6 +28,7 @@
     <script src="../common/draw.js"></script>
     <script src="../common/featureFunctions.js"></script>
     <script src="../common/utils.js"></script>
+    <script src="../common/classifiers/knn.js"></script>
 
     <script src="./js/display.js"></script>
     <script src="./js/sketchPad.js"></script>
@@ -35,20 +36,21 @@
     <script src="./chart/chart.js"></script>
     <script src="./chart/graphics.js"></script>
     <script src="./chart/math.js"></script>
-
+    knn
     <script>
       const { samples, featureNames } = features;
       const trainingSamples = training.samples;
       const testingSamples = testing.samples;
 
       const k =100;
+      const kNN = new KNN(trainingSamples, k);
       let correctCount = 0;
       let totalCount = 0;
 
       for (const testSample of testingSamples) {
         testSample.truth = testSample.label;
         testSample.label = '?';
-        const { label } = classify(testSample.point);
+        const { label } = kNN.predict(testSample.point);
         testSample.label = label;
         testSample.correct = testSample.label === testSample.truth;
         totalCount++;
@@ -94,20 +96,6 @@
         handleClick,
       );
 
-      function classify(point) {
-        const samplePoints = trainingSamples.map(s => s.point);
-        const indices = utils.getNearest(point, samplePoints, k);
-        const nearestSamples  = indices.map(i => trainingSamples[i]);
-        const labels = nearestSamples.map(s => s.label);
-        const counts = {};
-        for (const label of labels) {
-          counts[label] = counts[label] ? counts[label] + 1 : 1;
-        }
-        const max = Math.max(...Object.values(counts));
-        const label = labels.find(l => counts[l] === max);
-        return { label, nearestSamples };
-      }
-
       const onDrawingUpdate = (paths) => {
         /**
          * Replacing this with featureFunctions.inUse[]:
@@ -117,7 +105,7 @@
              featureFunctions.getPathCount(paths),
              featureFunctions.getPointCount(paths)
            ];
-         * =============================================
+         * ======classify=======================================
          * With featureFunction.inUse[], replace each seperate calls
          * to mapping each of the function call and repeatedly calling each.
          * (See feature_extractor.js of similar set up).
@@ -130,7 +118,7 @@
         /**
          * Try classifying the point drawn based on the neibours.
          */
-        const { label, nearestSamples } = classify(point);
+        const { label, nearestSamples } = kNN.predict(point);
         predictedLabelContainer.innerHTML =
           `Is it a ${label}?`;
         chart.showDynamicPoint(point, label, nearestSamples);
