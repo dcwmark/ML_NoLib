@@ -11,7 +11,7 @@ const { samples: trainingSamples } = JSON.parse(
   fs.readFileSync(constants.TRAINING)
 );
 
-const kNN = new KNN(trainingSamples, 50);
+const kNN = new KNN(trainingSamples, 100);
 
 const { samples: testingSamples } = JSON.parse(
   fs.readFileSync(constants.TESTING)
@@ -20,7 +20,7 @@ const { samples: testingSamples } = JSON.parse(
 let totalCount = 0;
 let correctCount = 0;
 for (const sample of testingSamples) {
-  const { label: predictedLabel } = kNN.predict(sample);
+  const { label: predictedLabel } = kNN.predict(sample.point);
   correctCount += predictedLabel === sample.label;
   totalCount++;
 }
