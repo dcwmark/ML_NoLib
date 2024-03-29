@@ -44,7 +44,7 @@ console.log(`Generating Splits ...`);
 
 const trainingAmount = samples.length * 0.5;
 
-const [partition1, partition2] = partition(
+const [partition1, partition2] = utils.partition(
   samples,
   (e) => e.id <= trainingAmount,
 );
@@ -111,6 +111,15 @@ fs.writeFileSync(
     }),
   }),
 );
+
+fs.writeFileSync(
+  constants.TRAINING_CSV,
+  utils.toCSV(
+    [...featureNames, 'Label'],
+    training.map(a => [...a.point, a.label])
+  )
+)
+
 fs.writeFileSync(
   constants.TRAINING_JS,
   `const training=${
@@ -130,6 +139,15 @@ fs.writeFileSync(
     }),
   }),
 );
+
+fs.writeFileSync(
+  constants.TESTING_CSV,
+  utils.toCSV(
+    [...featureNames, 'Label'],
+    testing.map(a => [...a.point, a.label])
+  )
+)
+
 fs.writeFileSync(
   constants.TESTING_JS,
   `const testing=${
