@@ -245,10 +245,11 @@ class Chart{
       this.pixelBounds,
       [0, 1],
     );
-    const sz = (canvas.width - this.margin * 2)
-               / this.dataTrans.scale**2;
+    const sz = (
+      canvas.width - this.margin * 2
+    ) / this.dataTrans.scale**2;
     //                               width height
-    ctx.drawImage(this.bg, ...topLeft, sz, sz);
+    // ctx.drawImage(this.bg, ...topLeft, sz, sz);
 
     ctx.globalAlpha=this.transparency;
     this.#drawSamples(this.samples);
