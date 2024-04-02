@@ -18,7 +18,7 @@ def readFeatureFile(filePath):
   # starting at 1 to skip the headers
   for i in range(1, len(lines)):
     # After the split, row is more like cols.
-    # In this case, the row would by an array of cols.
+    # In this case, the row would be an array of cols.
     row = lines[i].split(',')
     # print('line[' + str(i) + ']::' + lines[i])
     # print('row::', row)
@@ -34,26 +34,22 @@ def readFeatureFile(filePath):
       classes[row[-1].strip()]
     )
 
-    return (X, y)
+  return (X, y)
 
-# from sklearn.neighbors import KNeighborsClassifier
-# knn = KNeighborsClassifier(
-#   n_neighbors = 50,
-#   algorithm = "brute",
-#   weights = "uniform"
-# )
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(
+  n_neighbors = 50,
+  algorithm = "brute",
+  weights = "uniform"
+)
 
-# X, y = readFeatureFile("../data/dataset/training.csv")
-f = open("../data/dataset/training.csv", 'r')
-lines = f.readlines()
-print(lines)
-# print('X::', X[:10])
-# print(len(X))
-"""
+X, y = readFeatureFile("../data/dataset/training.csv")
+print('X::', X[:10])
+print(len(X))
+
 knn.fit(X, y)
 
 X, y = readFeatureFile("../data/dataset/testing.csv")
-
 accuracy = knn.score(X, y)
 print("Accuracy::", accuracy)
-"""
+
